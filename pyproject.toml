@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "aseconv"
+version = "0.1"
+authors = [
+  { name="Sinchul Yeom", email="yeoms@ornl.gov" },
+  { name="Mina Yoon", email="myoon@ornl.gov" },
+]
+dependencies = [
+  "ase",
+]
+description = "aseconv geometry converter"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+aseconv = "aseconv.main:main"
+
+[project.urls]
+Homepage = "https://github.com/CompMatORNL/aseconv"
+Documentation = "https://CompMatORNL.github.io/aseconv"
+
+#Issues = "https://github.com/pypa/sampleproject/issues"
+
