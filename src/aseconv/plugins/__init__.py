@@ -1,7 +1,6 @@
-"""  Default plugin modules
+"""Default plugin modules.
 
-    Loaded by defaults file names with 'plug*.py' or 'io*.py'
-    The custom plugin file path need to be set in 'ASEC_PLUGIN_PATH' enviornment variable.
+    Files of 'plug*.py' or 'io*.py' are loaded by default. The custom plugin file path should be set in ``ASEC_PLUGIN_PATH`` enviornment variable.
 """
 import os
 import glob

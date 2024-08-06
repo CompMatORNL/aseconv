@@ -14,11 +14,10 @@ if TYPE_CHECKING:  # Only imports the below statements during type checking
 import traceback
 from collections import OrderedDict
 
-class AsecBase(ABC):
+class _AsecBase(ABC):
     """Plugin base class.
     
-    # Child class should have _plugins
-    # Currently two differnt plugin class cannot have the same name.
+    Child class should have ``_plugins`` instance. Currently two differnt plugin class cannot have the same name.
         
     """ 
     #_plugins: OrderedDict = OrderedDict()
@@ -28,14 +27,14 @@ class AsecBase(ABC):
         super().__init_subclass__(**kwargs)
       
         cname=cls.__name__
-        if (not cname.startswith("NoPlug") and not cname.startswith("Asec")):
+        if (not cname.startswith("NoPlug") and not cname.startswith("Asec") and not cname.startswith("_Asec")):
             if (cname not in cls._plugins):
                 cls._plugins.update( {cname:cls} )
             else:
-                print(f" - [AsecBase]: Warn '{cname}' is duplicated...")
+                print(f" - [_AsecBase]: Warn '{cname}' is duplicated...")
                 
     
-class AsecPlug(AsecBase):
+class AsecPlug(_AsecBase):
     """Plugin base class for ``atom`` modification.
         
     """
@@ -92,10 +91,10 @@ class AsecPlug(AsecBase):
         """Actual process method to modify ``atom``.
            
         Args:
-            atom: An atom image.
+            atom: An ``atom`` image.
             
         Returns:
-            The modified atom image.
+            The modified ``atom`` image.
                
         """
         pass
@@ -115,10 +114,10 @@ class AsecPlug(AsecBase):
 
 
 
-class AsecIO(AsecBase):
-    """Base class for type IO _plugins for specific extensions. 
+class AsecIO(_AsecBase):
+    """Base class for type IO plugins for specific extensions. 
     
-    If duplicated, this plugin will be used instead of ``ase`` library's.
+    If duplicated, this plugin will be used instead of ``ASE`` library's.
         
     """
 

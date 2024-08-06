@@ -1,3 +1,5 @@
+"""RMG IO plugin module."""
+
 from aseconv.pluginbase import AsecIO
 
 class RMGIO(AsecIO):

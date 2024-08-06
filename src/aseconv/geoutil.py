@@ -46,20 +46,17 @@ def basis_projected_pos_sorted(atom: Atoms, insbottom: bool = False) -> tuple:
 def identify_layers(atom: Atoms, sidx: int, mingap: float = 1.9) -> tuple:
     """Indentify layers based on the projected length along the axis ``sidx``.
 
-    The layers are collection of atoms whose positions are differed less than
-        the ``mingap``. This doesn't recognize layers lying on periodic
-        boundaries. Please use --wslab to wrap a separated slab.
+    The layers are collection of atoms whose positions are differed less than the ``mingap``. This doesn't recognize layers lying on periodic boundaries. Please use ``--wslab`` to wrap a separated slab.
 
     Args:
         atoms:  An atom image
         sidx:   A slab axis index. 1-3(a-c).
 
     Returns:
-        a tuple containing:
-         - layeredge_hi (numpy.ndarray): The array of sorted projected position
-             of the highest atom in a layer.
-         - layeredge_lo (numpy.ndarray): The array of sorted projected position
-             of the lowest atom in a layer.
+        A ``tuple`` containing
+        
+         - layeredge_hi (numpy.ndarray): The array of sorted projected position of the highest atom in a layer.
+         - layeredge_lo (numpy.ndarray): The array of sorted projected position of the lowest atom in a layer.
          - ilayers  (numpy.ndarray): The array of indices of atoms in a layer.
 
     """
@@ -91,8 +88,7 @@ def roll_axes(atom: Atoms, src: Union[str, int], tgt: Union[str, int]) -> Atoms:
     """Roll axes of the ``atom`` image from the ``src`` axis to the ``tgt`` axis.
 
     Example:
-        Rolling 'a' axis to 'c' axis results the following axis changes:
-          a->c, b->a, c->b.
+        Rolling 'a' axis to 'c' axis results the following axis changes: a->c, b->a, c->b.
 
         >>> roll_axes(atom, 'a', 'c')
 
@@ -161,9 +157,7 @@ def align_slabaxistoz(atom: Atoms, sidx: int) -> Atoms:
 def identify_slabaxis(atom: Atoms, isslabwrap: bool = False, mingap: float = 12):
     """Identify slab axis of the ``atom`` image.
 
-    If a gap of the projected positions in an axis is greater than ``mingap``,
-        the axis is identifed as the slab axis. The search order is c,b,a axes,
-        and the first indentified axis is returned.
+    If a gap of the projected positions in an axis is greater than ``mingap``, the axis is identifed as the slab axis. The search order is c,b,a axes, and the first indentified axis is returned.
 
     Args:
         atom: An atom image
@@ -171,7 +165,7 @@ def identify_slabaxis(atom: Atoms, isslabwrap: bool = False, mingap: float = 12)
         mingap: A minimum position gap to be a slab.
 
     Returns:
-        0 for not slab, otherwise 1-3 (a-c axes).
+        0 for non-slab, otherwise 1-3 (a-c axes).
 
     """
     cell = atom.cell

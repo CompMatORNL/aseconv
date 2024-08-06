@@ -1,3 +1,5 @@
+"""K-path generator plugin modules."""
+
 from __future__ import annotations
 import sys
 from aseconv.pluginbase import AsecPlug, AsecIO
@@ -236,13 +238,12 @@ class KPathOut:
                 k1: begin k point coordinates.
                 es: end k point name.
                 k2: end k point coordinates.
-                pes: previous es.
+                pes: previous ``es``.
         """
         pass
 
     def endpath(self, args: argparse.Namespace, ksidx: int, tickstr: str):
-        
-        """Endpath
+        """End path.
 
         Args:
                 args: Result of ArgumentParser.parse_args().
@@ -255,7 +256,7 @@ class KPathOut:
         """Write kpath to ``kfile``.
 
         Args:
-                kfile: Output file name
+                kfile: Output file name.
         """
         print(" - Writing '{}'...".format(str(kfile)))
         with open(kfile, "wt") as f:

@@ -1,4 +1,4 @@
-﻿..
+..
   class.rst
 
 aseconv.pluginbase.AsecPlug

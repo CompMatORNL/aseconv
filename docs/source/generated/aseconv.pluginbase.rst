@@ -23,7 +23,6 @@ aseconv.pluginbase
                 :nosignatures:
                 :template: autosummary/class.rst
                 
-                    AsecBase
                     AsecIO
                     AsecPlug
         

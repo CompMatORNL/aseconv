@@ -1,7 +1,9 @@
+"""FHI-aims IO plugin module."""
+
 from aseconv.pluginbase import AsecIO
 
 class AimsIO(AsecIO):
-    """FHI-aims IO plugin to enhance ``ase``'s write function.
+    """FHI-aims IO plugin to enhance ``ASE``'s write function.
     
     This plugin can convert constraints read from VASP file to FHI-aims.
     

@@ -21,7 +21,7 @@ import textwrap
 import traceback
 
 class AseConv:
-    """Main class of the utility"""
+    """Main class of the utility."""
 
     class _AsecHelpFormatter(
         argparse.RawTextHelpFormatter, argparse.ArgumentDefaultsHelpFormatter
@@ -55,8 +55,10 @@ class AseConv:
  Commands can be sent using any TCP clinets, but the following example could be used 
  without installing any other software. 
  
- An example client command in linux. `MyCOMMANDS` needs to be replaced properly.
- `--pwd` sets the path of input files, and usually ${PWD}.
+ - An example client command in linux.
+
+ `MyCOMMANDS` needs to be replaced properly.
+ `--pwd` sets the path of input files, and usually `${PWD}`.
 ```
     ASEC_SERVER=/dev/tcp/localhost/17399;AFD=793 
     # AFD could be any number (file descriptor).
@@ -89,7 +91,7 @@ class AseConv:
             metavar="OutputFormat",
             type=str,
             required=True,
-            help="Output Format",
+            help="Output Format.",
         )
         self.pparser.add_argument(
             "ins", metavar="File/Dir", type=str, nargs="+", help="File/Dir of sources."
@@ -108,7 +110,7 @@ class AseConv:
             metavar="start:[stop[:step]]",
             type=str,
             default=":",
-            help="Specify frame(s) using python array slicing for multiframe format file such as .xyz. ",
+            help="Specify frame(s) using python array slicing for multiframe format file such as `.xyz`. ",
         )
         self.pparser.add_argument(
             "-o", metavar="Outputfile", type=str, default=None, help="Output file name."
@@ -119,14 +121,14 @@ class AseConv:
             dest="pwd",
             type=str,
             default="",
-            help="Working path for service",
+            help="Working path when using `service`.",
         )
         self.pparser.add_argument(
             "--sidx",
             metavar="SlabIdx",
             type=int,
             default=-1,
-            help="-1(auto),0(noslab),{1-3}(a-c)",
+            help="-1(auto), 0(non-slab), {1-3}(a-c axis).",
         )
 #        self.pparser.add_argument("--aslab", action="store_true", help="Temporary")
    
@@ -156,7 +158,7 @@ class AseConv:
         return parser
 
     def add_argument(self, clplug: AsecPlug, *args, parser: argparse.ArgumentParser=None, process: bool=True, **kwargs):
-        """Add argument
+        """Add argument when registering a plugin class.
         
         Args:
             clplug: Plugin class. 
@@ -434,7 +436,7 @@ class AseConv:
         sys.exit(0)
 
     def init_parser(self, iaio: AsecIO):
-        """Main start function.
+        """Initializer parser.
         
             Args:
                 iaio: Instance of ioplugins. 
@@ -455,9 +457,9 @@ class AseConv:
         #w=os.get_terminal_size().columns
         # Description for supported formats.
         defw=80
-        atype=textwrap.fill(f"ase supported formats: {', '.join(lstio)}", width=defw, subsequent_indent="        ")
+        atype=textwrap.fill(f"**ASE** supported formats: {', '.join(lstio)}", width=defw, subsequent_indent="        ")
         #atype=', '.join(lstio)
-        ptype=textwrap.fill(f"plugin supported formats: {', '.join(self._iopitypeext)}", width=defw, subsequent_indent="        ")
+        ptype=textwrap.fill(f"**aseconv** supported formats: {', '.join(self._iopitypeext)}", width=defw, subsequent_indent="        ")
         geo_desc="""Geometry modification tool using [ASE](https://wiki.fysik.dtu.dk/ase/index.html) library.
     
 {}
@@ -470,6 +472,8 @@ class AseConv:
         return self.parser
 
     def start(self):
+        """Main start function."""
+        
         try:
             args = self.parser.parse_args()
             if len(sys.argv) == 1:
@@ -509,6 +513,8 @@ def acmparser():
     return ascparser
     
 def main():
+    """Main function."""
+    
     global asp
     acmparser()
     asp.start()

@@ -1,6 +1,4 @@
-""" Default geometry plugins
-
-    Examples:
+""" Default geometry plugins.
         
 """
 import re
@@ -23,9 +21,11 @@ def _select_by_xyz(atom, str):
 
 
 class APlugNoConst(AsecPlug):
+    """Remove all the constraints."""
+    
     def __init__(self, asec):
         super().__init__()
-        asec.add_argument(self, "--noc", action="store_true", help="Remove constraints")
+        asec.add_argument(self, "--noc", action="store_true", help="Remove all the onstraints.")
 
     def output_postfix(self, args, opt):
         return f"_NoC"
@@ -36,11 +36,9 @@ class APlugNoConst(AsecPlug):
 
 
 class APlugConst(AsecPlug):
-    #[StartExample]
-    """--con plugin
+    """Add constraints.
 
     """
-    #[EndExample]
 
     def __init__(self, asec):
         super().__init__()
@@ -49,7 +47,7 @@ class APlugConst(AsecPlug):
             "--con",
             metavar='"expr of {x-z}"',
             type=str,
-            help="Add additional constraint atoms of the boolean expression, (ex) (z>0)&(z<10).",
+            help="Add additional constraint atoms of the boolean expression. Ex) `(z>0)&(z<10)`.",
         )
 
     def output_postfix(self, args, opt):
@@ -95,6 +93,8 @@ class APlugConst(AsecPlug):
 
 
 class APlugStrain(AsecPlug):
+    """Add strain."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -104,7 +104,7 @@ class APlugStrain(AsecPlug):
             dest="strain",
             type=str,
             default=None,
-            help="Strain structure. F:Fixed volume. C:add lattice constraints (FHI-aims, xyz only).",
+            help="Strain structure. F:Fixed volume. C:add lattice constraints (For FHI-aims xyz axis only).",
         )
 
     def output_postfix(self, args, opt):
@@ -177,6 +177,8 @@ class APlugStrain(AsecPlug):
 
 
 class APlugSurface(AsecPlug):
+    """Creat a surface."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -199,6 +201,8 @@ class APlugSurface(AsecPlug):
 
 
 class APlugScale(AsecPlug):
+    """Scale structure."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -228,6 +232,8 @@ class APlugScale(AsecPlug):
 
 
 class APlugRotate(AsecPlug):
+    """Rotate around an axis."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -237,7 +243,7 @@ class APlugRotate(AsecPlug):
             dest="rotate",
             type=str,
             default=None,
-            help="Rotate an angle `degree` around an axis [-]{a-cx-z}. With cell rotation[C]",
+            help="Rotate an angle `degree` around an axis `[-]{a-cx-z}`. `[C]`: With cell rotation.",
         )
 
     def output_postfix(self, args, opt):
@@ -268,6 +274,8 @@ class APlugRotate(AsecPlug):
 
 
 class APlugAlign(AsecPlug):
+    """Align a axis."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -276,7 +284,7 @@ class APlugAlign(AsecPlug):
             metavar="{a-c}{x-z}[,...]",
             type=str,
             default=None,
-            help="Align a source axis{a-c} to a target axis{x-z}.",
+            help="Align a source axis`{a-c}` to a target axis`{x-z}`.",
         )
 
     def output_postfix(self, args, opt):
@@ -293,7 +301,9 @@ class APlugAlign(AsecPlug):
 
 
 class APlugSort(AsecPlug):
+    """Sort by elements and/or positions."""
     # TODO this process is called twice
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -323,6 +333,8 @@ class APlugSort(AsecPlug):
 
 
 class APlugRepeat(AsecPlug):
+    """Repeat the cell."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -331,7 +343,7 @@ class APlugRepeat(AsecPlug):
             metavar="na,nb,nc[,opt]",
             type=str,
             default=None,
-            help="Repeat the cell. n[a-c]:int/float/imprfrac, opt:-1(supercellmode)|tolerance",
+            help="Repeat the cell. n[a-c]:int/float/impr-frac, opt:-1(supercellmode)|tolerance",
         )
 
     def output_postfix(self, args, opt):
@@ -374,6 +386,8 @@ class APlugRepeat(AsecPlug):
 
 
 class APlugVacuum(AsecPlug):
+    """Add vacuum to c axis."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -382,7 +396,7 @@ class APlugVacuum(AsecPlug):
             metavar="vacuum",
             type=float,
             default=None,
-            help="Add vacuum(A) to c axis",
+            help="Add vacuum(A) to c axis.",
         )
 
     def output_postfix(self, args, opt):
@@ -402,6 +416,8 @@ class APlugVacuum(AsecPlug):
 
 
 class APlugSetVac(AsecPlug):
+    """Set actual vacuum along the z axis."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -410,7 +426,7 @@ class APlugSetVac(AsecPlug):
             metavar="setvac",
             type=float,
             default=None,
-            help="Set actual vacuum(A) in z axis (auto aligned)",
+            help="Set actual vacuum(A) in z axis (auto aligned).",
         )
 
     def output_postfix(self, args, opt):
@@ -429,6 +445,8 @@ class APlugSetVac(AsecPlug):
 
 
 class APlugTranslate(AsecPlug):
+    """Translate atom positions."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -449,6 +467,8 @@ class APlugTranslate(AsecPlug):
 
 
 class APlugSelect(AsecPlug):
+    """Select atoms."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -456,7 +476,7 @@ class APlugSelect(AsecPlug):
             "--sel",
             metavar='"expr of {x-z}"',
             type=str,
-            help="Select atoms of a boolean expression, (ex) (z>0)&(x>3)",
+            help="Select atoms of a boolean expression. Ex) `(z>0)&(x>3)`",
         )
 
     def output_postfix(self, args, opt):
@@ -468,10 +488,12 @@ class APlugSelect(AsecPlug):
 
 
 class APlugHex2Rec(AsecPlug):
+    """Convert current hexagonal cell to a rectangular cell."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
-            self, "--torec", action="store_true", help="Hexagonal to rectangular cell"
+            self, "--torec", action="store_true", help="Hexagonal to rectangular cell."
         )
 
     def output_postfix(self, args, opt):
@@ -498,10 +520,12 @@ class APlugHex2Rec(AsecPlug):
 
 
 class APlugWrap(AsecPlug):
+    """Wrap atom positions into the cell."""
+    
     def __init__(self, asec):
         super().__init__()
-        asec.add_argument(self, "-w", action="store_true", help="[Wrap](https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.wrap) atom positions into the cell")
-        asec.add_argument(self, "--wp", action="store_true", help="Wrap with pretty")
+        asec.add_argument(self, "-w", action="store_true", help="[Wrap](https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.wrap) atom positions into the cell.")
+        asec.add_argument(self, "--wp", action="store_true", help="Wrap with pretty.")
 
     def output_postfix(self, args, opt):
         return f""
@@ -512,7 +536,7 @@ class APlugWrap(AsecPlug):
 
 
 class APlugWSlab(AsecPlug):
-    """--wslab Wrap separted slab"""
+    """Translate and wrap a separated slab into middle."""
 
     def __init__(self, asec):
         super().__init__()
@@ -521,7 +545,7 @@ class APlugWSlab(AsecPlug):
             "--twslab",
             action="store_true",
             dest="twrapslab",
-            help="Translate and wrap a separated slab into middle",
+            help="Translate and wrap a separated slab into middle.",
         )
 
     def output_postfix(self, args, opt):
@@ -533,6 +557,8 @@ class APlugWSlab(AsecPlug):
 
 
 class APlugCTrim(AsecPlug):
+    """Remove dangling carbon atoms and/or hydrogenate."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -604,6 +630,8 @@ class APlugCTrim(AsecPlug):
 
 
 class APlugRmLayer(AsecPlug):
+    """Remove layers along the `slabaxis`."""
+    
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -611,7 +639,7 @@ class APlugRmLayer(AsecPlug):
             "--rmlayer",
             metavar="l1[,...][,mingap(def:1.9,float)]",
             type=str,
-            help="Remove layeres along the slabaxis. Starting from the bottom [0], ...",
+            help="Remove layeres along the `slabaxis`. The layer index(`ln`) starts from the bottom layer, 0.",
         )
 
     def output_postfix(self, args, opt):

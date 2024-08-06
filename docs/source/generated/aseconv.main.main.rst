@@ -1,4 +1,4 @@
-﻿..
+..
   base.rst
 
 aseconv.main.main
