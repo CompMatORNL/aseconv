@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 
 [project]
-name = "aseconv"
-version = "0.1"
+name = "compmat-aseconv"
+version = "0.1.0"
 authors = [
   { name="Sinchul Yeom", email="yeoms@ornl.gov" },
   { name="Mina Yoon", email="myoon@ornl.gov" },
 ]
 dependencies = [
-  "ase",
+  "ase", "seek-path"
 ]
 description = "aseconv geometry converter"
 readme = "README.md"
@@ -21,6 +21,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aseconv"]
 
 [project.scripts]
 aseconv = "aseconv.main:main"
