@@ -5,10 +5,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "compmat-aseconv"
-version = "0.1.0-beta.1"
+version = "0.1.0-beta.2"
 authors = [
   { name="Sinchul Yeom", email="yeoms@ornl.gov" },
   { name="Mina Yoon", email="myoon@ornl.gov" },
+  { name="Jack C. Lasseter", email="lasseterjc@ornl.gov" },
 ]
 dependencies = [
   "ase", "seekpath"
@@ -31,6 +32,5 @@ aseconv = "aseconv.main:main"
 [project.urls]
 Homepage = "https://github.com/CompMatORNL/aseconv"
 Documentation = "https://CompMatORNL.github.io/aseconv"
-
-#Issues = "https://github.com/pypa/sampleproject/issues"
+Issues = "https://github.com/CompMatORNL/aseconv/issues"
 

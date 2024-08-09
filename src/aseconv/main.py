@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Aseconv program
+[aseconv](https://github.com/CompMatORNL/aseconv) program.
 """
 
 # export PYTHONDONTWRITEBYTECODE=1

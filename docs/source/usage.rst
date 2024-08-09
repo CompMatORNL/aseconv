@@ -10,7 +10,7 @@ To use aseconv, first install it using pip:
 
 .. code-block:: console
 
-   (.venv) $ pip install compmat-aseconv
+   $ pip install compmat-aseconv
 
 
 .. _examples:
@@ -18,7 +18,7 @@ To use aseconv, first install it using pip:
 Examples
 --------
     
-- Convert a `FHI-aims`_ `1_nacl.in` file to `VASP`_ poscar file in Cartesian format after sorting atom orders by element names. Also, add constraint to atoms whose z coordinates are less than 2.5.
+- Convert a `FHI-aims`_ `1_nacl.in` file to `VASP`_ poscar file (``-t vasp``) in Cartesian format (``-C``) after sorting atom orders by element names (``--elsort``). Also, add constraint to atoms whose z coordinates are less than 2.5 (``--con "z<2.5"``).
 
 .. code-block:: console
 

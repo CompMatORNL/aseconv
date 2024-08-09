@@ -22,7 +22,7 @@ import sys
 # -- Project information -----------------------------------------------------
 
 project = "CompMat - aseconv"
-copyright = "2024, Sinchul Yeom, Mina Yoon, Jack C Lasseter"
+copyright = "2024, Sinchul Yeom, Mina Yoon, and Jack C Lasseter"
 author = "Sinchul Yeom, Mina Yoon, and Jack C Lasseter"
 
 
@@ -43,14 +43,6 @@ extensions = [
 
 autosummary_generate = True
 autodoc_typehints = "description"
-XX_autodoc_default_options = {
-    'members': 'var1, var2',
-    'member-order': 'bysource',
-    'special-members': '__init__',
-    'undoc-members': False,
-    'inherited-members': False,
-    'exclude-members': '__weakref__'
-}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

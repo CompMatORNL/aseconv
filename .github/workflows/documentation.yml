@@ -19,7 +19,6 @@ jobs:
       - name: Sphinx build
         run: |
           cd docs
-          rm -rf ../_build
           sphinx-build source ../_build
           cd ..
       - name: Deploy to GitHub Pages

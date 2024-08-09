@@ -10,7 +10,7 @@ from importlib import util
 import importlib
 # https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/
 
-import sys, imp
+import sys
 
 def _load_module(path, name):
     module_name = os.path.splitext(os.path.basename(path))[0]

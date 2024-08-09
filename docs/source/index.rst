@@ -16,7 +16,7 @@ Features
 service
 -------
 
- Launch/stop a background processing server for many file processing to avoid initial python loading time. 
+ Launch or stop a background processing server when executing this software multiple times to avoid initial python loading time. 
  
 geo
 ---
@@ -36,18 +36,18 @@ geo
  - K-path generator. 
     
     Using the SeeK-path_, generate `VASP`_/`Wannier90`_/`WannierTools`_ or `FHI-aims`_ 3D k-path input strings.
-    It also automatically detects 2D slab structures, and generate 2D K-path.
+    It also automatically detects 2D slab structures and generate 2D K-path.
 
 
 Plugins
 =======
 
- **aseconv** suports plugins. There are two types base plugin classes, :py:class:`~.pluginbase.AsecPlug` and :py:class:`~.pluginbase.AsecIO`.
+ The **aseconv** suports plugins. There are two types of base plugin classes, :py:class:`~.pluginbase.AsecPlug` and :py:class:`~.pluginbase.AsecIO`.
  The :py:class:`~.pluginbase.AsecPlug` is for atom manipluation, and :py:class:`~.pluginbase.AsecIO` is for 
  read/write function for different file formats. If the name of a class starts with 'NoPlug', then the plugin is not loaded.
  The plugin files which contain plugin classes must be named as 'plug*.py' or 'io*.py'
  and should be placed in the plugin path set in an environmetal variable ``ASEC_PLUGIN_PATH``.
- Multiple plugin paths can be set in the variable with a delimiter `:`.
+ Multiple plugin paths can be set in the variable with a delimiter ``:``.
  
  One plugin class needs to register at least one argument to be passed. And the :py:mod:`~.pluginbase.AsecPlug.process`
  function must be defined.
@@ -61,7 +61,7 @@ Plugins
 
 - Example of :py:class:`~.pluginbase.AsecIO` plugin.
 
-   For this plugin, if the read function is not defined, :py:mod:`ase.io.read` is used, instead.
+  For this plugin, if the read function is not defined, :py:mod:`ase.io.read` is used, instead.
    
    
 .. literalinclude:: ../../src/aseconv/plugins/iormg.py
