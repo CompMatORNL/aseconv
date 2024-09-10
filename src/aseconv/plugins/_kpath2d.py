@@ -1,24 +1,28 @@
 """
-    2D Kpath generating functions. Modified from a following source.
-    https://github.com/aiidateam/aiida-core/blob/b7e37ce50ba1d6a5de62ad95357befdedda0de65/aiida/tools/data/array/kpoints/legacy.py
+2D Kpath generating functions. Modified from a following source.
+https://github.com/aiidateam/aiida-core/blob/b7e37ce50ba1d6a5de62ad95357befdedda0de65/aiida/tools/data/array/kpoints/legacy.py
 """
+
 from __future__ import annotations
 from ase import Atoms
 from aseconv import geoutil as gu
 
-def kpath_2d(args: argparse.Namespace, oatom: Atoms, lnums: list, ksidx: int) -> tuple(Atoms,dict):
-    """2D Kpath generator. 
-    
+
+def kpath_2d(
+    args: argparse.Namespace, oatom: Atoms, lnums: list, ksidx: int
+) -> tuple(Atoms, dict):
+    """2D Kpath generator.
+
     Args:
         args:  Parsed arguments.
         oatom: Input atom image.
         lnums: List of the number of atoms per each element.
         ksidx: Slab index.
-        
+
     Returns:
         ratoms: Rotated atom.
-        kp: Dict of kpoints. 
-    
+        kp: Dict of kpoints.
+
     """
     import spglib as spg
     import numpy as np
@@ -234,17 +238,16 @@ def kpath_2d(args: argparse.Namespace, oatom: Atoms, lnums: list, ksidx: int) ->
     return ratom, kp
 
 
-
 def _kpidx_bravais(atom: Atoms, grpn: int) -> dict:
     """Obtain KPath index from Bravis info.
-    
+
     Args:
         atom: Atom image.
         grpn: Symmetry group number from spg library.
-        
+
     Returns:
         2d kpath index.
-        
+
     """
     epsilon_length = 0.1
     epsilon_angle = 0.1
@@ -301,4 +304,3 @@ def _kpidx_bravais(atom: Atoms, grpn: int) -> dict:
             "extended_name": "oblique acute",
         }
     return ret
-

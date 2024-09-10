@@ -1,5 +1,5 @@
 """
- Geometry utilities
+Geometry utilities
 """
 
 import numpy as np
@@ -16,7 +16,7 @@ def basis_projected_pos_sorted(atom: Atoms, insbottom: bool = False) -> tuple:
 
     Returns:
         A ``tuple`` containing
-        
+
          - isorted_ppos (numpy.ndarray): The atom indices of sorted projected positions.
          - sorted_ppos (numpy.ndarray): The array of the sorted projected positions.
          - sorted_pgap (numpy.ndarray): The array of the sorted projected gaps beween layers (0th:1st-0th, 1st:2nd-1st, ...).
@@ -54,7 +54,7 @@ def identify_layers(atom: Atoms, sidx: int, mingap: float = 1.9) -> tuple:
 
     Returns:
         A ``tuple`` containing
-        
+
          - layeredge_hi (numpy.ndarray): The array of sorted projected position of the highest atom in a layer.
          - layeredge_lo (numpy.ndarray): The array of sorted projected position of the lowest atom in a layer.
          - ilayers  (numpy.ndarray): The array of indices of atoms in a layer.
@@ -197,5 +197,5 @@ def identify_slabaxis(atom: Atoms, isslabwrap: bool = False, mingap: float = 12)
                 atom.translate(sar)
                 atom.wrap()
             break
-            
+
     return slabidx

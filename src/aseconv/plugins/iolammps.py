@@ -2,12 +2,13 @@
 
 from aseconv.pluginbase import AsecIO
 
+
 class LammpsIO(AsecIO):
     """Lammps IO plugin.
 
     Supports atomic(lmp), charge(lmpc), and full(lmpf) type.
     Can read ``Atom Type Labels``
-    
+
     """
 
     def __init__(s):
@@ -70,8 +71,8 @@ class LammpsIO(AsecIO):
 
     def read(s, file, type, **kwargs):
         format = "lammps-data"
-        pfile=Path(file)
-        ext=pfile.suffix
+        pfile = Path(file)
+        ext = pfile.suffix
         if ext == ".lmp":
             parm = {"style": "atomic"}
         elif ext == ".lmpc":
@@ -152,7 +153,7 @@ class LammpsIO(AsecIO):
             lstr.append(
                 "{0} {1}lo {1}hi".format(
                     self.vec2str([alo - rvac / 2, ahi + rvac / 2]), axis
-                    )
+                )
             )
         # xy=bcosC, xz=c cos B, yz=(b*c*cosA-xy*xz)/ly
 

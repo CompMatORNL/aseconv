@@ -1,16 +1,19 @@
 """Default plugin modules.
 
-    Files of 'plug*.py' or 'io*.py' are loaded by default. The custom plugin file path should be set in ``ASEC_PLUGIN_PATH`` enviornment variable.
+Files of 'plug*.py' or 'io*.py' are loaded by default. The custom plugin file path should be set in ``ASEC_PLUGIN_PATH`` enviornment variable.
 """
+
 import os
 import glob
 from pathlib import Path
 import traceback
 from importlib import util
 import importlib
+
 # https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/
 
 import sys
+
 
 def _load_module(path, name):
     module_name = os.path.splitext(os.path.basename(path))[0]

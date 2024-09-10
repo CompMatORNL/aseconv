@@ -4,21 +4,22 @@ from __future__ import annotations
 import sys
 from aseconv.pluginbase import AsecPlug, AsecIO
 
+
 class APlugKpath(AsecPlug):
     """Kpath generator plugin class.
-    
+
     Supported formats: vasp, aims, rmg only.
-    
+
     Required: spg, ase, seekpath, numpy, scipy
-       
+
     Attributes:
-    
+
     """
-    
+
     def __init__(self, asec):
-        #parser=asec.add_subparsers('kpath', help='Kpath generator', description="KPath Generatore")
+        # parser=asec.add_subparsers('kpath', help='Kpath generator', description="KPath Generatore")
         super().__init__()
-        
+
         parser = None
         asec.add_argument(
             self,
@@ -95,10 +96,10 @@ class APlugKpath(AsecPlug):
                 [ "FromK1 K1x K1y K1z ToK2 K2x K2y K2z"
                    , ...
                 ]
-        
+
         Returns:
             kp: kpath dictionary
-            
+
         """
         path = []
         points = {}
@@ -114,7 +115,6 @@ class APlugKpath(AsecPlug):
             path.append((ar[0], ar[4]))
         kp = {"path": path, "point_coords": points}
         return kp
-
 
     def _kp_auto(self, args, atom):
         syms = []
@@ -140,7 +140,6 @@ class APlugKpath(AsecPlug):
             sr_atom, kp = self._kp_3d(args, atom, nums, syms)
 
         return sr_atom, kp, ksidx
-
 
     def _kp_output(self, args, kp, inst, ksidx):
         dkp = kp["path"]
@@ -176,7 +175,6 @@ class APlugKpath(AsecPlug):
         kp["point_coords"] = npcr
 
         inst.endpath(args, ksidx, tickstr)
-
 
     def _kp_main(self, args, atom, kopt, bzfile, kfile):
         import aseconv.plugins._kpathBZ as bz
@@ -220,17 +218,18 @@ class APlugKpath(AsecPlug):
 
 class KPathOut:
     """Kpath output base class
-    
+
     Attributes:
         lpathstr: List of the path strings.
         nkp: Number of kpoints per segment.
-        
+
     """
+
     def __init__(self, dkp: dict):
         self.lpathstr: list = []
         self.nkp: int = int(100 / (len(dkp) + 1)) * 4 + 1
 
-    def addpath(self, bs: str, k1: str, es: str , k2: str , pes: str):
+    def addpath(self, bs: str, k1: str, es: str, k2: str, pes: str):
         """Add path.
 
         Args:
@@ -266,7 +265,7 @@ class KPathOut:
 
 class KPOvasp(KPathOut):
     """Kpath output class for vasp/wannier90."""
-    
+
     def __init__(self, dkp):
         super().__init__(dkp)
         self.fmwanr = " {0:>3}  {1}  {2:>3}  {3}"
@@ -358,7 +357,7 @@ class KPOvasp(KPathOut):
 
 class KPOaims(KPathOut):
     """KPath output class for FHI-aims."""
-    
+
     def __init__(self, dkp):
         super().__init__(dkp)
         self.fmt = "output band  {1} {3} {4:>4} {0:>3}  {2:>3}"  # 21: max for aims?
@@ -372,7 +371,7 @@ class KPOaims(KPathOut):
 
 class KPOrmg(KPathOut):
     """KPath output class for RMG."""
-    
+
     def __init__(self, dkp):
         super().__init__(dkp)
         self.lpathstr.append('kpoints_bandstructure = " ')
@@ -391,6 +390,7 @@ class KPOrmg(KPathOut):
     def endpath(self, args, ksidx, tickstr):
         self.lpathstr.append(self.fmt.format(self.es, self.k2, self.nkp))
         self.lpathstr.append(' "')
+
 
 def ___kpath_make_pos(args, kp):
     pre = "primitive_"

@@ -1,5 +1,4 @@
 .. CompMat - aseconv documentation master file, created by
-   sphinx-quickstart on Wed Jul 17 13:24:53 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
    H3(=) H4(-) H5(^) H6(")
@@ -8,7 +7,7 @@
 CompMat - aseconv
 #################
 
-**aseconv** is a Python CLI utility for geometry manipulation using ASE_ library. Check out the :doc:`usage` section for further information.
+aseconv_ is a Python CLI utility for geometry manipulation using ASE_ library. Check out the :doc:`usage` section for further information.
 
 Features
 ========
@@ -85,6 +84,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _aseconv: https://github.com/CompMatORNL/aseconv
 .. _ASE: https://wiki.fysik.dtu.dk/ase/index.html
 .. _VASP: https://www.vasp.at/
 .. _wannier90: https://wannier.org/

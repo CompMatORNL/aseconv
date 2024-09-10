@@ -2,10 +2,10 @@
 
 from aseconv.pluginbase import AsecIO
 
+
 class RMGIO(AsecIO):
-    """RMG IO Plugin. Currently supports ``write`` only.
-    """
-    
+    """RMG IO Plugin. Currently supports ``write`` only."""
+
     def __init__(self):
         pass
 

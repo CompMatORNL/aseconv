@@ -1,15 +1,15 @@
-"""kpath on Brillouinzone drawing functions  
+"""kpath on Brillouinzone drawing functions"""
 
-"""
 from __future__ import annotations
 import numpy as np
 
-def _bzone_3d(cell: ase.cell.Cell)  -> scipy.spatial.Voronoi:
+
+def _bzone_3d(cell: ase.cell.Cell) -> scipy.spatial.Voronoi:
     """Draw Brillouinzone 3D
-    
+
     Args:
         cell
-    
+
     """
     from scipy.spatial import Voronoi
 

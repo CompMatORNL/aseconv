@@ -1,11 +1,11 @@
-""" Default geometry plugins.
-        
-"""
+"""Default geometry plugins."""
+
 import re
 import numpy as np
 import ase
 import aseconv.geoutil as gu
 from aseconv.pluginbase import AsecPlug
+
 
 def _select_by_xyz(atom, str):
     pos = atom.positions
@@ -13,8 +13,8 @@ def _select_by_xyz(atom, str):
     y = pos[:, 1]
     z = pos[:, 2]
     arr = eval(f"({str})")
-    if arr.sum() == 0:
-        raise Exception(f" - No atom is selected by '{sum}' ...")
+    # if arr.sum() == 0:
+    #   raise Exception(f" - No atom is selected by '{sum}' ...")
     catom = eval(f"atom[arr]")
     # print(np.where(arr))
     return catom, np.where(arr)[0]
@@ -22,10 +22,12 @@ def _select_by_xyz(atom, str):
 
 class APlugNoConst(AsecPlug):
     """Remove all the constraints."""
-    
+
     def __init__(self, asec):
         super().__init__()
-        asec.add_argument(self, "--noc", action="store_true", help="Remove all the onstraints.")
+        asec.add_argument(
+            self, "--noc", action="store_true", help="Remove all the constraints."
+        )
 
     def output_postfix(self, args, opt):
         return f"_NoC"
@@ -36,9 +38,7 @@ class APlugNoConst(AsecPlug):
 
 
 class APlugConst(AsecPlug):
-    """Add constraints.
-
-    """
+    """Add constraints."""
 
     def __init__(self, asec):
         super().__init__()
@@ -69,7 +69,9 @@ class APlugConst(AsecPlug):
                 fixscaled.update({lst.a: ldic["kwargs"]["mask"]})
             else:
                 fixinds = set(lst.get_indices())  # FixAtoms
-        __, sidx = _select_by_xyz(atom, val)
+        satom, sidx = _select_by_xyz(atom, val)
+        if satom.get_global_number_of_atoms() == 0:
+            self.piprint(f"[warn] No atoms was selected by '{val}'...")
 
         curfix = [[[True] * 3, sidx]]
         for i in curfix:
@@ -94,7 +96,7 @@ class APlugConst(AsecPlug):
 
 class APlugStrain(AsecPlug):
     """Add strain."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -104,7 +106,7 @@ class APlugStrain(AsecPlug):
             dest="strain",
             type=str,
             default=None,
-            help="Strain structure. F:Fixed volume. C:add lattice constraints (For FHI-aims xyz axis only).",
+            help="Strain structure. F:Fixed volume. C:add lattice constraints (For FHI-aims, xyz axis only).",
         )
 
     def output_postfix(self, args, opt):
@@ -178,7 +180,7 @@ class APlugStrain(AsecPlug):
 
 class APlugSurface(AsecPlug):
     """Creat a surface."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -196,13 +198,13 @@ class APlugSurface(AsecPlug):
 
     def process(self, args, atom, val):
         sarr = np.array(val.split(","), int)
-        atom = surface(atom, sarr[:3], sarr[3], periodic=True)
+        atom = ase.build.surface(atom, sarr[:3], sarr[3], periodic=True)
         return atom
 
 
 class APlugScale(AsecPlug):
     """Scale structure."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -233,7 +235,7 @@ class APlugScale(AsecPlug):
 
 class APlugRotate(AsecPlug):
     """Rotate around an axis."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -250,32 +252,34 @@ class APlugRotate(AsecPlug):
         return f"_R{self.safe_name(opt)}"
 
     def process(self, args, atom, val):
-        cell=atom.cell
-        ore = re.compile("(?P<cmd>[C])?(?P<degree>[+-]?([0-9]*[.])?[0-9]+)(?P<sign>-?)(?P<axis>[x-za-c])")
-        invalid=True
+        cell = atom.cell
+        ore = re.compile(
+            "(?P<cmd>[C])?(?P<degree>[+-]?([0-9]*[.])?[0-9]+)(?P<sign>-?)(?P<axis>[x-za-c])"
+        )
+        invalid = True
         for c in val.split(","):
             for x in ore.finditer(c):
-                invalid=False
-                cmd=x.group('cmd')
-                rcell=False
-                if cmd is not None and 'C' in cmd:
-                    rcell=True
-                ax=x.group("axis")
-                sign=x.group('sign')
-                rvec=sign+ax
-                deg=x.group("degree")
-                if (ax >='a' and ax <='c'):
-                    rvec=cell[ord(ax)-ord('a')].copy()*int(sign+'1')
+                invalid = False
+                cmd = x.group("cmd")
+                rcell = False
+                if cmd is not None and "C" in cmd:
+                    rcell = True
+                ax = x.group("axis")
+                sign = x.group("sign")
+                rvec = sign + ax
+                deg = x.group("degree")
+                if ax >= "a" and ax <= "c":
+                    rvec = cell[ord(ax) - ord("a")].copy() * int(sign + "1")
 
                 atom.rotate(float(deg), rvec, rotate_cell=rcell)
-        if (invalid):
+        if invalid:
             self.piexception(f"Invalid rotation expression: '{val}'...")
         return atom
 
 
 class APlugAlign(AsecPlug):
     """Align a axis."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -302,8 +306,9 @@ class APlugAlign(AsecPlug):
 
 class APlugSort(AsecPlug):
     """Sort by elements and/or positions."""
+
     # TODO this process is called twice
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -334,7 +339,7 @@ class APlugSort(AsecPlug):
 
 class APlugRepeat(AsecPlug):
     """Repeat the cell."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -387,7 +392,7 @@ class APlugRepeat(AsecPlug):
 
 class APlugVacuum(AsecPlug):
     """Add vacuum to c axis."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -417,7 +422,7 @@ class APlugVacuum(AsecPlug):
 
 class APlugSetVac(AsecPlug):
     """Set actual vacuum along the z axis."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -446,12 +451,12 @@ class APlugSetVac(AsecPlug):
 
 class APlugTranslate(AsecPlug):
     """Translate atom positions."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
             self,
-            "-l",
+            "--tr",
             metavar="dx,dy,dz",
             type=str,
             default=None,
@@ -468,7 +473,7 @@ class APlugTranslate(AsecPlug):
 
 class APlugSelect(AsecPlug):
     """Select atoms."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -484,12 +489,14 @@ class APlugSelect(AsecPlug):
 
     def process(self, args, atom, val):
         satom, __ = _select_by_xyz(atom, val)
+        if satom.get_global_number_of_atoms() == 0:
+            self.piprint(f"[Warn] No atoms wa selected by '{val}'...")
         return satom
 
 
 class APlugHex2Rec(AsecPlug):
     """Convert current hexagonal cell to a rectangular cell."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -505,26 +512,58 @@ class APlugHex2Rec(AsecPlug):
         for i in range(2, -1, -1):
             ia = (i + 1) % 3
             ib = (i + 2) % 3
-            if abs(par[i + 3] - 60) < 0.1 and abs(par[ia] - par[ib]) < 0.1:
+            h60 = abs(par[i + 3] - 60) < 0.1
+            h120 = abs(par[i + 3] - 120) < 0.1
+            if (h60 or h120) and abs(par[ia] - par[ib]) < 0.1:
                 shift = (i + 1) % 3
                 break
 
         if shift < 0:
             self.piexception(f"No hexagonal plane '{par}' ...")
 
-        vecs = [[1, 1, 0], [-1, 1, 0], [0, 0, 1]]  # when a=b and gamma=60
+        vecs = [[1, 1, 0], [-1, 1, 0], [0, 0, 1]]  # when a=b and gamma=60/120
         rvec = np.roll(vecs, shift, axis=1)
         atom = ase.build.cut(atom, a=rvec[0], b=rvec[1], c=rvec[2], tolerance=0.1)
         # atom.rotate(atom.cell[0],'x',rotate_cell=True)
         return atom
 
 
-class APlugWrap(AsecPlug):
-    """Wrap atom positions into the cell."""
-    
+class APlugTri2Mono(AsecPlug):
+    """Convert a cell to a monoclinc cell(alpha=beta=90)."""
+
     def __init__(self, asec):
         super().__init__()
-        asec.add_argument(self, "-w", action="store_true", help="[Wrap](https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.wrap) atom positions into the cell.")
+        asec.add_argument(
+            self,
+            "--tomono",
+            action="store_true",
+            help="Convert a cell to a monoclinic cell(alpha=beta=90).",
+        )
+
+    def output_postfix(self, args, opt):
+        return f"_Mono"
+
+    def process(self, args, atom, val):
+        par = atom.cell
+        invtcell = np.linalg.inv(par)
+        cvec = np.matmul([0, 0, par[2][2]], invtcell)
+        self.piprint(f"Cut vector[2] : {cvec}")
+        rvec = [[1, 0, 0], [0, 1, 0], cvec]
+        atom = ase.build.cut(atom, a=rvec[0], b=rvec[1], c=rvec[2], tolerance=0.1)
+        return atom
+
+
+class APlugWrap(AsecPlug):
+    """Wrap atom positions into the cell."""
+
+    def __init__(self, asec):
+        super().__init__()
+        asec.add_argument(
+            self,
+            "-w",
+            action="store_true",
+            help="[Wrap](https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.wrap) atom positions into the cell.",
+        )
         asec.add_argument(self, "--wp", action="store_true", help="Wrap with pretty.")
 
     def output_postfix(self, args, opt):
@@ -558,7 +597,7 @@ class APlugWSlab(AsecPlug):
 
 class APlugCTrim(AsecPlug):
     """Remove dangling carbon atoms and/or hydrogenate."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -631,7 +670,7 @@ class APlugCTrim(AsecPlug):
 
 class APlugRmLayer(AsecPlug):
     """Remove layers along the `slabaxis`."""
-    
+
     def __init__(self, asec):
         super().__init__()
         asec.add_argument(
@@ -674,9 +713,10 @@ class APlugRmLayer(AsecPlug):
 # Not added
 class NoPlugTemplate(AsecPlug):
     """Plugin class template. Not loaded."""
+
     def __init__(self, asec):
         super().__init__()
-        asec.add_argument(self,'--template', '-l', metavar='temp', type=str)
+        asec.add_argument(self, "--template", "-l", metavar="temp", type=str)
 
     def output_postfix(self, args, opt):
         return f"_S{self.safe_name(opt)}"

@@ -20,6 +20,7 @@ import ase.io.formats as afmt
 import textwrap
 import traceback
 
+
 class AseConv:
     """Main class of the utility."""
 
@@ -30,8 +31,8 @@ class AseConv:
 
     def __init__(self):
         """Class init
-            
-            Attributes:
+
+        Attributes:
         """
         # argparse.RawTextHelpFormatter
         self.parser = argparse.ArgumentParser(
@@ -76,7 +77,9 @@ class AseConv:
             description=server_desc,
             formatter_class=self._AsecHelpFormatter,
         )
-        parser_a.add_argument("--port", type=int, default=17399, help="Server TCP port.")
+        parser_a.add_argument(
+            "--port", type=int, default=17399, help="Server TCP port."
+        )
         parser_a.add_argument(
             "--timeout", type=int, default=30, help="Idle shutdown timeout(s)."
         )
@@ -100,7 +103,9 @@ class AseConv:
             "-i", metavar="InputFormat", type=str, default=None, help="Input Format."
         )
         self.pparser.add_argument(
-            "-C", action="store_true", help="Save in Cartesian coordinates (def:fractional)."
+            "-C",
+            action="store_true",
+            help="Save in Cartesian coordinates (def:fractional).",
         )
         self.pparser.add_argument(
             "-f", "--force", dest="f", action="store_true", help="Force write."
@@ -130,20 +135,21 @@ class AseConv:
             default=-1,
             help="-1(auto), 0(non-slab), {1-3}(a-c axis).",
         )
-#        self.pparser.add_argument("--aslab", action="store_true", help="Temporary")
-   
+        #        self.pparser.add_argument("--aslab", action="store_true", help="Temporary")
+
         self.parser_geo = self.add_subparsers(
             "geo",
             help="geometry modificatin",
             description="Geometry modifier",
         )
+
     def add_subparsers(self, cmd: str, **kwargs) -> argparse.ArgumentParser:
-        """Add subparsers for plugins. 
-        
+        """Add subparsers for plugins.
+
         Args:
-            cmd: Command for subparser. 
+            cmd: Command for subparser.
             kwargs: Keywoard args for ``argparse.add_parser``
-            
+
         Returns:
              Added subparser.
         """
@@ -157,19 +163,26 @@ class AseConv:
         parser.set_defaults(func=self._main_handler, argparser=parser)
         return parser
 
-    def add_argument(self, clplug: AsecPlug, *args, parser: argparse.ArgumentParser=None, process: bool=True, **kwargs):
+    def add_argument(
+        self,
+        clplug: AsecPlug,
+        *args,
+        parser: argparse.ArgumentParser = None,
+        process: bool = True,
+        **kwargs,
+    ):
         """Add argument when registering a plugin class.
-        
+
         Args:
-            clplug: Plugin class. 
+            clplug: Plugin class.
             parser: A parser for the arguments.
             process: Whther to be used for the atom image processing. True for yes and false for no.
             kwargs: Keyword args for ``argparse.add_argument``
-            
+
         Returns:
              Added subparser.
         """
-       
+
         if parser is None:
             parser = self.parser_geo
         if process:
@@ -212,13 +225,13 @@ class AseConv:
         for type, ext in self._iopitypeext.items():
             if args.t == type:
                 oext = ext
-                if oext.startswith('.'):
-                    oext=oext[1:]
+                if oext.startswith("."):
+                    oext = oext[1:]
                 break
         if oext == "":
             fmt = afmt.get_ioformat(args.t)
             if len(fmt.extensions) > 0:
-                oext = fmt.extensions[0] # No dot
+                oext = fmt.extensions[0]  # No dot
             else:
                 oext = fmt.name
 
@@ -228,7 +241,7 @@ class AseConv:
                 dp = Path(args.o)
             else:
                 dp = din.parent.joinpath("0conv_" + args.t + "_" + din.name)
-                
+
             files = [
                 x
                 for x in glob.glob(str(din.joinpath("*")))
@@ -250,13 +263,11 @@ class AseConv:
             if outset != None:
                 ofile = outset
             else:
-                ofile = dp.joinpath(pfile.stem + pfix + '.' + oext)
+                ofile = dp.joinpath(pfile.stem + pfix + "." + oext)
 
             isdev = str(ofile).startswith("/dev")
             # TODO folder type plugin
-            if (
-                not args.f and ofile.exists() and not isdev
-            ):  
+            if not args.f and ofile.exists() and not isdev:
                 print("[INFO] '{}' exists...".format(str(ofile)))
                 continue
             if not pfile.exists():
@@ -285,12 +296,12 @@ class AseConv:
         defkwargs = {"index": args.frame, "do_not_split_by_at_sign": True}
         if type is not None:
             if type in self._iopitypeinst:
-                cls=self._iopitypeinst[type]
-                return cls.read(pfile,type,**defkwargs)
+                cls = self._iopitypeinst[type]
+                return cls.read(pfile, type, **defkwargs)
         else:
             if ext in self._iopiextinst:
                 cls = self._iopiextinst[ext]
-                return cls.read(pfile,type,**defkwargs)
+                return cls.read(pfile, type, **defkwargs)
 
         return ase.io.read(pfile, format=type, **defkwargs)
 
@@ -331,11 +342,12 @@ class AseConv:
 
     def _plug_update_warn(self, type, ext, inst):
         if type in self._iopitypeinst:
-            print(f"[WARN] '{type}' is already registered to {self._iopitypeinst[type]}...")
+            print(
+                f"[WARN] '{type}' is already registered to {self._iopitypeinst[type]}..."
+            )
         self._iopitypeinst.update({type: inst})
         self._iopiextinst.update({ext: inst})
         self._iopitypeext.update({type: ext})
-        
 
     def _server(self, sargv, args):
         import socketserver, socket, queue, threading, shlex, traceback
@@ -437,84 +449,99 @@ class AseConv:
 
     def init_parser(self, iaio: AsecIO):
         """Initializer parser.
-        
-            Args:
-                iaio: Instance of ioplugins. 
+
+        Args:
+            iaio: Instance of ioplugins.
         """
         self._instios = iaio._instances
         for i in self._instios:
             for type, ext in i.infos().get("typeexts", {}).items():
                 self._plug_update_warn(type, ext, i)
 
-        lstio=[]
-        aiodict=ase.io.formats.ioformats
+        lstio = []
+        aiodict = ase.io.formats.ioformats
         for x in aiodict:
-            if (x not in self._iopitypeext):
+            if x not in self._iopitypeext:
                 lstio.append(x)
-        
-        #print(os.get_terminal_size())
-        #OSError: [Errno 25] Inappropriate ioctl for device
-        #w=os.get_terminal_size().columns
+
+        # print(os.get_terminal_size())
+        # OSError: [Errno 25] Inappropriate ioctl for device
+        # w=os.get_terminal_size().columns
         # Description for supported formats.
-        defw=80
-        atype=textwrap.fill(f"**ASE** supported formats: {', '.join(lstio)}", width=defw, subsequent_indent="        ")
-        #atype=', '.join(lstio)
-        ptype=textwrap.fill(f"**aseconv** supported formats: {', '.join(self._iopitypeext)}", width=defw, subsequent_indent="        ")
-        geo_desc="""Geometry modification tool using [ASE](https://wiki.fysik.dtu.dk/ase/index.html) library.
+        defw = 80
+        atype = textwrap.fill(
+            f"**ASE** supported formats: {', '.join(lstio)}",
+            width=defw,
+            subsequent_indent="        ",
+        )
+        # atype=', '.join(lstio)
+        ptype = textwrap.fill(
+            f"**aseconv** supported formats: {', '.join(self._iopitypeext)}",
+            width=defw,
+            subsequent_indent="        ",
+        )
+        geo_desc = """Geometry modification tool using [ASE](https://wiki.fysik.dtu.dk/ase/index.html) library.
     
 {}
     
 {}
 
-    """.format(atype, ptype)
-        self.parser_geo.description=geo_desc
-        
+    """.format(
+            atype, ptype
+        )
+        self.parser_geo.description = geo_desc
+
         return self.parser
 
     def start(self):
         """Main start function."""
-        
+
         try:
             args = self.parser.parse_args()
             if len(sys.argv) == 1:
                 self.parser.print_help()
                 sys.exit(1)
-                
+
             args.func(sys.argv, args)
         except argparse.ArgumentError:
             self.parser.print_help()
-        #except:
+        # except:
         #   traceback.print_exc()
         #  sys.exit(1)
 
-ascparser=None
+
+ascparser = None
+
+
 def acmparser():
     """Init function for sphinx-argparse"""
-    
+
     global asp, ascparser
 
-    if (ascparser is not None):
+    if ascparser is not None:
         return ascparser
-    
+
     asp = AseConv()
+
     class NoPlugMain(AsecPlug):
         def process(self, atom):
             pass
-    
+
     class NoPlugIO(AsecIO):
         def infos(self):
             return {}
-            
+
     inst = NoPlugMain()
     inst.init_plugins(asp)
     iaio = NoPlugIO()
     iaio.init_plugins()
-    ascparser=asp.init_parser(iaio)
+    ascparser = asp.init_parser(iaio)
     return ascparser
-    
+
+
 def main():
     """Main function."""
-    
+
     global asp
     acmparser()
     asp.start()
