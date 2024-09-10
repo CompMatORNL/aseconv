@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aseconv.geoutil &mdash; CompMat - aseconv  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CompMat - aseconv
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CompMat - aseconv</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">aseconv.geoutil</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for aseconv.geoutil</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Geometry utilities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ase</span> <span class="kn">import</span> <span class="n">Atoms</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+
+<div class="viewcode-block" id="basis_projected_pos_sorted">
+<a class="viewcode-back" href="../../generated/aseconv.geoutil.basis_projected_pos_sorted.html#aseconv.geoutil.basis_projected_pos_sorted">[docs]</a>
+<span class="k">def</span> <span class="nf">basis_projected_pos_sorted</span><span class="p">(</span><span class="n">atom</span><span class="p">:</span> <span class="n">Atoms</span><span class="p">,</span> <span class="n">insbottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Caclculate basis-vector-projected atom positions and sort.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atom: An atom image.</span>
+<span class="sd">        insbottom:  Whether to insert perodic image of the top atom to the bottom. True for yes, False for no.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A ``tuple`` containing</span>
+
+<span class="sd">         - isorted_ppos (numpy.ndarray): The atom indices of sorted projected positions.</span>
+<span class="sd">         - sorted_ppos (numpy.ndarray): The array of the sorted projected positions.</span>
+<span class="sd">         - sorted_pgap (numpy.ndarray): The array of the sorted projected gaps beween layers (0th:1st-0th, 1st:2nd-1st, ...).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">cell</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">volume</span>
+    <span class="k">if</span> <span class="n">vol</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># When no cell info</span>
+        <span class="n">ppos</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_positions</span><span class="p">()</span>
+        <span class="n">cpar</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cpar</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">cellpar</span><span class="p">()</span>
+        <span class="n">mcell</span> <span class="o">=</span> <span class="p">[[</span><span class="n">cpar</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">cpar</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cpar</span><span class="p">[</span><span class="mi">2</span><span class="p">]]]</span>
+        <span class="n">rpos</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">(</span><span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ppos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">rpos</span><span class="p">,</span> <span class="n">mcell</span><span class="p">)</span>  <span class="c1"># projected position</span>
+
+    <span class="n">isorted_ppos</span> <span class="o">=</span> <span class="n">ppos</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sorted_ppos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">take_along_axis</span><span class="p">(</span><span class="n">ppos</span><span class="p">,</span> <span class="n">isorted_ppos</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ret_ppos</span> <span class="o">=</span> <span class="n">sorted_ppos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">insbottom</span><span class="p">:</span>
+        <span class="n">ret_ppos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">sorted_ppos</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">sorted_ppos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cpar</span><span class="p">[:</span><span class="mi">3</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ret_ppos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ret_ppos</span><span class="p">,</span> <span class="p">[</span><span class="n">sorted_ppos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">cpar</span><span class="p">[:</span><span class="mi">3</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sorted_pgap</span> <span class="o">=</span> <span class="n">ret_ppos</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ret_ppos</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">isorted_ppos</span><span class="p">,</span> <span class="n">ret_ppos</span><span class="p">,</span> <span class="n">sorted_pgap</span></div>
+
+
+
+<div class="viewcode-block" id="identify_layers">
+<a class="viewcode-back" href="../../generated/aseconv.geoutil.identify_layers.html#aseconv.geoutil.identify_layers">[docs]</a>
+<span class="k">def</span> <span class="nf">identify_layers</span><span class="p">(</span><span class="n">atom</span><span class="p">:</span> <span class="n">Atoms</span><span class="p">,</span> <span class="n">sidx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mingap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.9</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Indentify layers based on the projected length along the axis ``sidx``.</span>
+
+<span class="sd">    The layers are collection of atoms whose positions are differed less than the ``mingap``. This doesn&#39;t recognize layers lying on periodic boundaries. Please use ``--wslab`` to wrap a separated slab.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atoms:  An atom image</span>
+<span class="sd">        sidx:   A slab axis index. 1-3(a-c).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A ``tuple`` containing</span>
+
+<span class="sd">         - layeredge_hi (numpy.ndarray): The array of sorted projected position of the highest atom in a layer.</span>
+<span class="sd">         - layeredge_lo (numpy.ndarray): The array of sorted projected position of the lowest atom in a layer.</span>
+<span class="sd">         - ilayers  (numpy.ndarray): The array of indices of atoms in a layer.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">isorted_ppos</span><span class="p">,</span> <span class="n">sorted_ppos</span><span class="p">,</span> <span class="n">sorted_pgap</span> <span class="o">=</span> <span class="n">basis_projected_pos_sorted</span><span class="p">(</span><span class="n">atom</span><span class="p">)</span>
+    <span class="n">isorted_sppos</span> <span class="o">=</span> <span class="n">isorted_ppos</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="n">sidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">sorted_spgap</span> <span class="o">=</span> <span class="n">sorted_pgap</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="n">sidx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">isorted_hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sorted_spgap</span> <span class="o">&gt;</span> <span class="n">mingap</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">isorted_lo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">isorted_hi</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+
+    <span class="n">ilayers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">isorted_lo</span><span class="p">):</span>
+        <span class="n">ilayers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">isorted_sppos</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">isorted_lo</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">isorted_hi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="p">)</span>
+
+    <span class="n">layeredge_hi</span> <span class="o">=</span> <span class="n">sorted_ppos</span><span class="p">[</span><span class="n">isorted_hi</span><span class="p">]</span>
+    <span class="n">layeredge_lo</span> <span class="o">=</span> <span class="n">sorted_ppos</span><span class="p">[</span><span class="n">isorted_lo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">layeredge_hi</span><span class="p">,</span> <span class="n">layeredge_lo</span><span class="p">,</span> <span class="n">ilayers</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_axis_to_int</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">ax</span>
+
+
+<div class="viewcode-block" id="roll_axes">
+<a class="viewcode-back" href="../../generated/aseconv.geoutil.roll_axes.html#aseconv.geoutil.roll_axes">[docs]</a>
+<span class="k">def</span> <span class="nf">roll_axes</span><span class="p">(</span><span class="n">atom</span><span class="p">:</span> <span class="n">Atoms</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">tgt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Atoms</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Roll axes of the ``atom`` image from the ``src`` axis to the ``tgt`` axis.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Rolling &#39;a&#39; axis to &#39;c&#39; axis results the following axis changes: a-&gt;c, b-&gt;a, c-&gt;b.</span>
+
+<span class="sd">        &gt;&gt;&gt; roll_axes(atom, &#39;a&#39;, &#39;c&#39;)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atom: An atom image.</span>
+<span class="sd">        src: The source axis. &#39;{a-c}&#39; or 1-3.</span>
+<span class="sd">        tgt: The tatget axis. &#39;{a-c}&#39; or 1-3.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The axes rolled atom image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">isrc</span> <span class="o">=</span> <span class="n">_axis_to_int</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="n">itgt</span> <span class="o">=</span> <span class="n">_axis_to_int</span><span class="p">(</span><span class="n">tgt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">isrc</span> <span class="o">==</span> <span class="n">itgt</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">atom</span>
+
+    <span class="n">syms</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">()</span>
+
+    <span class="n">shift</span> <span class="o">=</span> <span class="p">(</span><span class="n">itgt</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">isrc</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span>
+    <span class="n">rcell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">cell</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">rpos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">(),</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># should be scaled</span>
+    <span class="n">ratom</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span><span class="n">symbols</span><span class="o">=</span><span class="n">syms</span><span class="p">,</span> <span class="n">scaled_positions</span><span class="o">=</span><span class="n">rpos</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="n">rcell</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ratom</span></div>
+
+
+
+<div class="viewcode-block" id="align_slabaxistoz">
+<a class="viewcode-back" href="../../generated/aseconv.geoutil.align_slabaxistoz.html#aseconv.geoutil.align_slabaxistoz">[docs]</a>
+<span class="k">def</span> <span class="nf">align_slabaxistoz</span><span class="p">(</span><span class="n">atom</span><span class="p">:</span> <span class="n">Atoms</span><span class="p">,</span> <span class="n">sidx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Atoms</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Align the slab axis (``sidx``) of the ``atom`` to z axis.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atom: An atom image.</span>
+<span class="sd">        sidx: A slab axis to be aligned. 1-3.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The Z-alined atom image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">scipy.spatial.transform</span> <span class="kn">import</span> <span class="n">Rotation</span> <span class="k">as</span> <span class="n">R</span>
+
+    <span class="n">ratom</span> <span class="o">=</span> <span class="n">atom</span>
+    <span class="k">if</span> <span class="n">sidx</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">sidx</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Slab axis(</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">+</span><span class="n">sidx</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">) is not c axis, rolling ...&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">constraints</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  | constraints are not preservered...&quot;</span><span class="p">)</span>
+        <span class="n">ratom</span> <span class="o">=</span> <span class="n">roll_axes</span><span class="p">(</span><span class="n">atom</span><span class="p">,</span> <span class="n">sidx</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - aligning c-&gt;[001] and a-&gt;[100]&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ratom</span><span class="o">.</span><span class="n">constraints</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  | constraints is not preservered...&quot;</span><span class="p">)</span>
+
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">ratom</span><span class="o">.</span><span class="n">cell</span>
+    <span class="n">ralign</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">align_vectors</span><span class="p">(</span>
+        <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="c1"># ralign=R.align_vectors([[0,1,0],[1,0,0]],[cell[2],cell[0]],weights=[1,0.1])</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">ralign</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">rrcell</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+    <span class="n">rrpos</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ratom</span><span class="o">.</span><span class="n">get_positions</span><span class="p">())</span>
+    <span class="n">rratom</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span>
+        <span class="n">symbols</span><span class="o">=</span><span class="n">ratom</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">(),</span> <span class="n">positions</span><span class="o">=</span><span class="n">rrpos</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="n">rrcell</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">rratom</span></div>
+
+
+
+<div class="viewcode-block" id="identify_slabaxis">
+<a class="viewcode-back" href="../../generated/aseconv.geoutil.identify_slabaxis.html#aseconv.geoutil.identify_slabaxis">[docs]</a>
+<span class="k">def</span> <span class="nf">identify_slabaxis</span><span class="p">(</span><span class="n">atom</span><span class="p">:</span> <span class="n">Atoms</span><span class="p">,</span> <span class="n">isslabwrap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">mingap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">12</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Identify slab axis of the ``atom`` image.</span>
+
+<span class="sd">    If a gap of the projected positions in an axis is greater than ``mingap``, the axis is identifed as the slab axis. The search order is c,b,a axes, and the first indentified axis is returned.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        atom: An atom image</span>
+<span class="sd">        isslabwrap: Whether to wrap the separated slab. True for yes, False for no.</span>
+<span class="sd">        mingap: A minimum position gap to be a slab.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        0 for non-slab, otherwise 1-3 (a-c axes).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">cell</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">volume</span>
+    <span class="k">if</span> <span class="n">vol</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">3</span>
+
+    <span class="n">slabidx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cpar</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">cellpar</span><span class="p">()</span>
+
+    <span class="n">isorted_ppos</span><span class="p">,</span> <span class="n">sorted_ppos</span><span class="p">,</span> <span class="n">sorted_pgap</span> <span class="o">=</span> <span class="n">basis_projected_pos_sorted</span><span class="p">(</span><span class="n">atom</span><span class="p">)</span>
+    <span class="n">imaxgap</span> <span class="o">=</span> <span class="n">sorted_pgap</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">maxgap</span> <span class="o">=</span> <span class="n">sorted_pgap</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">natom</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_global_number_of_atoms</span><span class="p">()</span>
+    <span class="c1"># print(imaxgap)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># TODO mingap to user input</span>
+        <span class="k">if</span> <span class="n">maxgap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">mingap</span><span class="p">:</span>
+            <span class="n">slabidx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">isslabwrap</span> <span class="ow">and</span> <span class="n">imaxgap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">natom</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">slen</span> <span class="o">=</span> <span class="n">cpar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">shift</span> <span class="o">=</span> <span class="n">slen</span> <span class="o">-</span> <span class="n">sorted_ppos</span><span class="p">[</span><span class="n">imaxgap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot; - Separated slab, shifting </span><span class="si">{</span><span class="n">shift</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> A in </span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="si">}</span><span class="s2"> axis ...&quot;</span>
+                <span class="p">)</span>
+                <span class="n">sar</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+                <span class="n">sar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">/</span> <span class="n">slen</span>  <span class="c1"># Projected Fractional</span>
+                <span class="n">sar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">sar</span><span class="p">)</span>  <span class="c1"># Cartesian</span>
+                <span class="n">atom</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">sar</span><span class="p">)</span>
+                <span class="n">atom</span><span class="o">.</span><span class="n">wrap</span><span class="p">()</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">slabidx</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sinchul Yeom, Mina Yoon, and Jack C Lasseter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

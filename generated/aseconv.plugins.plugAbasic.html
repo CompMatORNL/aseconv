@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aseconv.plugins.plugAbasic &mdash; CompMat - aseconv  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="aseconv.plugins.plugAbasic.APlugAlign" href="aseconv.plugins.plugAbasic.APlugAlign.html" />
+    <link rel="prev" title="aseconv.plugins.iormg.RMGIO" href="aseconv.plugins.iormg.RMGIO.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            CompMat - aseconv
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="aseconv.html">aseconv</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aseconv.geoutil.html">aseconv.geoutil</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aseconv.main.html">aseconv.main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aseconv.pluginbase.html">aseconv.pluginbase</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="aseconv.plugins.html">aseconv.plugins</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aseconv.plugins.ioaims.html">aseconv.plugins.ioaims</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aseconv.plugins.iolammps.html">aseconv.plugins.iolammps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aseconv.plugins.iormg.html">aseconv.plugins.iormg</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">aseconv.plugins.plugAbasic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aseconv.plugins.plugBkpath.html">aseconv.plugins.plugBkpath</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CompMat - aseconv</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="aseconv.html">aseconv</a></li>
+          <li class="breadcrumb-item"><a href="aseconv.plugins.html">aseconv.plugins</a></li>
+      <li class="breadcrumb-item active">aseconv.plugins.plugAbasic</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/aseconv.plugins.plugAbasic.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-aseconv.plugins.plugAbasic">
+<span id="aseconv-plugins-plugabasic"></span><h1>aseconv.plugins.plugAbasic<a class="headerlink" href="#module-aseconv.plugins.plugAbasic" title="Link to this heading"></a></h1>
+<p>Default geometry plugins.</p>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugAlign.html#aseconv.plugins.plugAbasic.APlugAlign" title="aseconv.plugins.plugAbasic.APlugAlign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugAlign</span></code></a></p></td>
+<td><p>Align a axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugCTrim.html#aseconv.plugins.plugAbasic.APlugCTrim" title="aseconv.plugins.plugAbasic.APlugCTrim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugCTrim</span></code></a></p></td>
+<td><p>Remove dangling carbon atoms and/or hydrogenate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugConst.html#aseconv.plugins.plugAbasic.APlugConst" title="aseconv.plugins.plugAbasic.APlugConst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugConst</span></code></a></p></td>
+<td><p>Add constraints.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugHex2Rec.html#aseconv.plugins.plugAbasic.APlugHex2Rec" title="aseconv.plugins.plugAbasic.APlugHex2Rec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugHex2Rec</span></code></a></p></td>
+<td><p>Convert current hexagonal cell to a rectangular cell.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugNoConst.html#aseconv.plugins.plugAbasic.APlugNoConst" title="aseconv.plugins.plugAbasic.APlugNoConst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugNoConst</span></code></a></p></td>
+<td><p>Remove all the constraints.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugRepeat.html#aseconv.plugins.plugAbasic.APlugRepeat" title="aseconv.plugins.plugAbasic.APlugRepeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugRepeat</span></code></a></p></td>
+<td><p>Repeat the cell.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugRmLayer.html#aseconv.plugins.plugAbasic.APlugRmLayer" title="aseconv.plugins.plugAbasic.APlugRmLayer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugRmLayer</span></code></a></p></td>
+<td><p>Remove layers along the <cite>slabaxis</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugRotate.html#aseconv.plugins.plugAbasic.APlugRotate" title="aseconv.plugins.plugAbasic.APlugRotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugRotate</span></code></a></p></td>
+<td><p>Rotate around an axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugScale.html#aseconv.plugins.plugAbasic.APlugScale" title="aseconv.plugins.plugAbasic.APlugScale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugScale</span></code></a></p></td>
+<td><p>Scale structure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugSelect.html#aseconv.plugins.plugAbasic.APlugSelect" title="aseconv.plugins.plugAbasic.APlugSelect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugSelect</span></code></a></p></td>
+<td><p>Select atoms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugSetVac.html#aseconv.plugins.plugAbasic.APlugSetVac" title="aseconv.plugins.plugAbasic.APlugSetVac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugSetVac</span></code></a></p></td>
+<td><p>Set actual vacuum along the z axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugSort.html#aseconv.plugins.plugAbasic.APlugSort" title="aseconv.plugins.plugAbasic.APlugSort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugSort</span></code></a></p></td>
+<td><p>Sort by elements and/or positions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugStrain.html#aseconv.plugins.plugAbasic.APlugStrain" title="aseconv.plugins.plugAbasic.APlugStrain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugStrain</span></code></a></p></td>
+<td><p>Add strain.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugSurface.html#aseconv.plugins.plugAbasic.APlugSurface" title="aseconv.plugins.plugAbasic.APlugSurface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugSurface</span></code></a></p></td>
+<td><p>Creat a surface.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugTranslate.html#aseconv.plugins.plugAbasic.APlugTranslate" title="aseconv.plugins.plugAbasic.APlugTranslate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugTranslate</span></code></a></p></td>
+<td><p>Translate atom positions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugTri2Mono.html#aseconv.plugins.plugAbasic.APlugTri2Mono" title="aseconv.plugins.plugAbasic.APlugTri2Mono"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugTri2Mono</span></code></a></p></td>
+<td><p>Convert a cell to a monoclinc cell(alpha=beta=90).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugVacuum.html#aseconv.plugins.plugAbasic.APlugVacuum" title="aseconv.plugins.plugAbasic.APlugVacuum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugVacuum</span></code></a></p></td>
+<td><p>Add vacuum to c axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugWSlab.html#aseconv.plugins.plugAbasic.APlugWSlab" title="aseconv.plugins.plugAbasic.APlugWSlab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugWSlab</span></code></a></p></td>
+<td><p>Translate and wrap a separated slab into middle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.APlugWrap.html#aseconv.plugins.plugAbasic.APlugWrap" title="aseconv.plugins.plugAbasic.APlugWrap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APlugWrap</span></code></a></p></td>
+<td><p>Wrap atom positions into the cell.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="aseconv.plugins.plugAbasic.NoPlugTemplate.html#aseconv.plugins.plugAbasic.NoPlugTemplate" title="aseconv.plugins.plugAbasic.NoPlugTemplate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoPlugTemplate</span></code></a></p></td>
+<td><p>Plugin class template.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aseconv.plugins.iormg.RMGIO.html" class="btn btn-neutral float-left" title="aseconv.plugins.iormg.RMGIO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aseconv.plugins.plugAbasic.APlugAlign.html" class="btn btn-neutral float-right" title="aseconv.plugins.plugAbasic.APlugAlign" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sinchul Yeom, Mina Yoon, and Jack C Lasseter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

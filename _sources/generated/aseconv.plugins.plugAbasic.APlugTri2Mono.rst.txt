@@ -1,0 +1,29 @@
+..
+  class.rst
+
+aseconv.plugins.plugAbasic.APlugTri2Mono
+========================================
+
+.. currentmodule:: aseconv.plugins.plugAbasic
+
+.. autoclass:: APlugTri2Mono
+    :members:
+    :show-inheritance:
+    :no-inherited-members:
+    
+        
+            .. rubric:: Methods
+
+            .. autosummary::
+                :nosignatures:
+                
+                    ~APlugTri2Mono.__init__
+                    ~APlugTri2Mono.init_plugins
+                    ~APlugTri2Mono.output_postfix
+                    ~APlugTri2Mono.piexception
+                    ~APlugTri2Mono.piprint
+                    ~APlugTri2Mono.process
+                    ~APlugTri2Mono.safe_name
+        
+    
+

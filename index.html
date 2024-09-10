@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompMat - aseconv &mdash; CompMat - aseconv  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            CompMat - aseconv
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">CompMat - aseconv</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CompMat - aseconv</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="compmat-aseconv">
+<h1>CompMat - aseconv<a class="headerlink" href="#compmat-aseconv" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/CompMatORNL/aseconv">aseconv</a> is a Python CLI utility for geometry manipulation using <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/index.html">ASE</a> library. Check out the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> section for further information.</p>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<section id="service">
+<h3>service<a class="headerlink" href="#service" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Launch or stop a background processing server when executing this software multiple times to avoid initial python loading time.</p>
+</div></blockquote>
+</section>
+<section id="geo">
+<h3>geo<a class="headerlink" href="#geo" title="Link to this heading"></a></h3>
+<blockquote>
+<div><ul>
+<li><p>Geometry manipulation functions.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Geometry file type conversion: Supports the transformation of geometry files into different formats.</p></li>
+<li><p>Extended file type support: Our code introduces support for additional file types and features beyond those supported by the <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/index.html">ASE</a> library.</p></li>
+<li><p>Coordinate system conversion: Cartesian &lt;-&gt; Fractional.</p></li>
+<li><p>Atom position translation</p></li>
+<li><p>Rotation of axes</p></li>
+<li><p>Supercell construction</p></li>
+<li><p>Axis alignment: Users can align any axis of the structure to a target direction.</p></li>
+<li><p>Surface generation: The code can generate surfaces based on Miller indices (hkl).</p></li>
+<li><p>Strain implementation: Introduce strain into structures.</p></li>
+<li><p>Consecutive operations are applied in the order of arguments.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>K-path generator.</p>
+<blockquote>
+<div><p>Using the <a class="reference external" href="https://seekpath.readthedocs.io/en/latest/maindoc.html">SeeK-path</a>, generate <a class="reference external" href="https://www.vasp.at/">VASP</a>/<a class="reference external" href="https://wannier.org/">Wannier90</a>/<a class="reference external" href="http://www.wanniertools.com/">WannierTools</a> or <a class="reference external" href="https://fhi-aims.org/">FHI-aims</a> 3D k-path input strings.
+It also automatically detects 2D slab structures and generate 2D K-path.</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="plugins">
+<h2>Plugins<a class="headerlink" href="#plugins" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>The <strong>aseconv</strong> suports plugins. There are two types of base plugin classes, <a class="reference internal" href="generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug" title="aseconv.pluginbase.AsecPlug"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsecPlug</span></code></a> and <a class="reference internal" href="generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO" title="aseconv.pluginbase.AsecIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsecIO</span></code></a>.
+The <a class="reference internal" href="generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug" title="aseconv.pluginbase.AsecPlug"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsecPlug</span></code></a> is for atom manipluation, and <a class="reference internal" href="generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO" title="aseconv.pluginbase.AsecIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsecIO</span></code></a> is for
+read/write function for different file formats. If the name of a class starts with ‘NoPlug’, then the plugin is not loaded.
+The plugin files which contain plugin classes must be named as ‘plug*.py’ or ‘io*.py’
+and should be placed in the plugin path set in an environmetal variable <code class="docutils literal notranslate"><span class="pre">ASEC_PLUGIN_PATH</span></code>.
+Multiple plugin paths can be set in the variable with a delimiter <code class="docutils literal notranslate"><span class="pre">:</span></code>.</p>
+<p>One plugin class needs to register at least one argument to be passed. And the <code class="xref py py-mod docutils literal notranslate"><span class="pre">process</span></code>
+function must be defined.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Example of <a class="reference internal" href="generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug" title="aseconv.pluginbase.AsecPlug"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsecPlug</span></code></a> plugin.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">APlugSelect</span><span class="p">(</span><span class="n">AsecPlug</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select atoms.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asec</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">asec</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;--sel&quot;</span><span class="p">,</span>
+            <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;&quot;expr of {x-z}&quot;&#39;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Select atoms of a boolean expression. Ex) `(z&gt;0)&amp;(x&gt;3)`&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">output_postfix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">opt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;_S@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">safe_name</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">atom</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">satom</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">_select_by_xyz</span><span class="p">(</span><span class="n">atom</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">satom</span><span class="o">.</span><span class="n">get_global_number_of_atoms</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">piprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Warn] No atoms wa selected by &#39;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&#39;...&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">satom</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Example of <a class="reference internal" href="generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO" title="aseconv.pluginbase.AsecIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsecIO</span></code></a> plugin.</p>
+<p>For this plugin, if the read function is not defined, <code class="xref py py-mod docutils literal notranslate"><span class="pre">ase.io.read</span></code> is used, instead.</p>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RMGIO</span><span class="p">(</span><span class="n">AsecIO</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RMG IO Plugin. Currently supports ``write`` only.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">infos</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;help&quot;</span><span class="p">:</span> <span class="s2">&quot;RMG file&quot;</span><span class="p">,</span> <span class="s2">&quot;typeexts&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rmg&quot;</span><span class="p">:</span> <span class="s2">&quot;.rmg&quot;</span><span class="p">}}</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;RMG reading is not supported yet&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">atom</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">ofile</span><span class="p">):</span>
+        <span class="c1"># lstr=[&#39;#******** REAL SPACE GRID ********&#39; ]</span>
+        <span class="c1"># wgrid=(((atom.cell.lengths()/0.2)+1)/2).round()*2</span>
+        <span class="c1"># lstr.append(f&#39;wavefunction_grid=&quot;{vec2str(wgrid,False,&quot;{:.0f}&quot;)}&quot;&#39;)</span>
+        <span class="c1"># lstr.append(&#39;potential_grid_refinement=&quot;2&quot;&#39;)</span>
+        <span class="n">lstr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lstr</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">#****  LATTICE and ATOMS  ****&quot;</span><span class="p">,</span>
+                <span class="s1">&#39;bravais_lattice_type = &quot;None&quot;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;crds_units           = &quot;Angstrom&quot;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;lattice_units        = &quot;Angstrom&quot;&#39;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">C</span><span class="p">:</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="s2">&quot;Absolute&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_positions</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="s2">&quot;Cell Relative&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">(</span><span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">lstr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;atomic_coordinate_type = &quot;</span><span class="si">{</span><span class="n">coord</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">lstr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;lattice_vector = &quot;&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atom</span><span class="o">.</span><span class="n">cell</span><span class="p">:</span>
+            <span class="n">lstr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec2str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="n">lstr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="se">\n</span><span class="s1">atoms = &quot;&#39;</span><span class="p">)</span>  <span class="c1"># space must exist before &#39;=&#39;</span>
+        <span class="n">sym</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">xyz</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+            <span class="n">lstr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sym</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;   &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vec2str</span><span class="p">(</span><span class="n">xyz</span><span class="p">))</span>
+        <span class="n">lstr</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ofile</span><span class="p">,</span> <span class="s2">&quot;wt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lstr</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#help">Help</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Sub-commands">Sub-commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#service">service</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#geo">geo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/aseconv.html">aseconv</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/aseconv.geoutil.html">aseconv.geoutil</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.geoutil.align_slabaxistoz.html">aseconv.geoutil.align_slabaxistoz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.geoutil.basis_projected_pos_sorted.html">aseconv.geoutil.basis_projected_pos_sorted</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.geoutil.identify_layers.html">aseconv.geoutil.identify_layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.geoutil.identify_slabaxis.html">aseconv.geoutil.identify_slabaxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.geoutil.roll_axes.html">aseconv.geoutil.roll_axes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="generated/aseconv.main.html">aseconv.main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.main.acmparser.html">aseconv.main.acmparser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.main.main.html">aseconv.main.main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.main.AseConv.html">aseconv.main.AseConv</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="generated/aseconv.pluginbase.html">aseconv.pluginbase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.pluginbase.AsecIO.html">aseconv.pluginbase.AsecIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.pluginbase.AsecPlug.html">aseconv.pluginbase.AsecPlug</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="generated/aseconv.plugins.html">aseconv.plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.plugins.ioaims.html">aseconv.plugins.ioaims</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.plugins.iolammps.html">aseconv.plugins.iolammps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.plugins.iormg.html">aseconv.plugins.iormg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.plugins.plugAbasic.html">aseconv.plugins.plugAbasic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/aseconv.plugins.plugBkpath.html">aseconv.plugins.plugBkpath</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sinchul Yeom, Mina Yoon, and Jack C Lasseter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aseconv.pluginbase &mdash; CompMat - aseconv  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CompMat - aseconv
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CompMat - aseconv</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">aseconv.pluginbase</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for aseconv.pluginbase</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Base plugin classes for aseconv</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">import</span> <span class="nn">ase.io</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">ase</span> <span class="kn">import</span> <span class="n">Atoms</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># Only imports the below statements during type checking</span>
+    <span class="kn">from</span> <span class="nn">.main</span> <span class="kn">import</span> <span class="n">AseConv</span>
+
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+
+<span class="k">class</span> <span class="nc">_AsecBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin base class.</span>
+
+<span class="sd">    Child class should have ``_plugins`` instance. Currently two differnt plugin class cannot have the same name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># _plugins: OrderedDict = OrderedDict()</span>
+    <span class="c1"># _plugins = []</span>
+
+    <span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init_subclass__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">cname</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">cname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NoPlug&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">cname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Asec&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">cname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_Asec&quot;</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">cname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_plugins</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">cname</span><span class="p">:</span> <span class="bp">cls</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - [_AsecBase]: Warn &#39;</span><span class="si">{</span><span class="n">cname</span><span class="si">}</span><span class="s2">&#39; is duplicated...&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AsecPlug">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug">[docs]</a>
+<span class="k">class</span> <span class="nc">AsecPlug</span><span class="p">(</span><span class="n">_AsecBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin base class for ``atom`` modification.&quot;&quot;&quot;</span>
+
+    <span class="n">_plugins</span><span class="p">:</span> <span class="n">OrderedDict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({})</span>
+    <span class="n">_instances</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_piinit</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializing the class.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            clspre: Class name prefix for output.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clspre</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;APlug&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AsecPlug.init_plugins">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug.init_plugins">[docs]</a>
+    <span class="k">def</span> <span class="nf">init_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asp</span><span class="p">:</span> <span class="n">aseconv</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">AseConv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loading all registered _plugins.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_piinit</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">AsecPlug</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">(</span><span class="n">asp</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_piinit</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="AsecPlug.piprint">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug.piprint">[docs]</a>
+    <span class="k">def</span> <span class="nf">piprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugin print with ``clspre`` tag.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">clspre</span><span class="si">}</span><span class="s2">] &quot;</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsecPlug.piexception">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug.piexception">[docs]</a>
+    <span class="k">def</span> <span class="nf">piexception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugin exeception with ``clspre`` tag.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">clspre</span><span class="si">}</span><span class="s2">] &quot;</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsecPlug.safe_name">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug.safe_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">safe_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rstr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns safe file name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            src: A source string.</span>
+<span class="sd">            rstr: A replacement string for invalid characters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Corrected file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">chars</span> <span class="o">=</span> <span class="s2">&quot;/,:&lt;&gt; ()+*</span><span class="si">{}</span><span class="s2">[]!$&amp;=|&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">src</span><span class="p">:</span>
+                <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">rstr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">src</span></div>
+
+
+<div class="viewcode-block" id="AsecPlug.process">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug.process">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom</span><span class="p">:</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Actual process method to modify ``atom``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            atom: An ``atom`` image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The modified ``atom`` image.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AsecPlug.output_postfix">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecPlug.html#aseconv.pluginbase.AsecPlug.output_postfix">[docs]</a>
+    <span class="k">def</span> <span class="nf">output_postfix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">opt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Postfix to be added to default output file name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            args: Argument list.</span>
+<span class="sd">            opt: The option string from an argument.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            Postfix to be appended.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AsecIO">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO">[docs]</a>
+<span class="k">class</span> <span class="nc">AsecIO</span><span class="p">(</span><span class="n">_AsecBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for type IO plugins for specific extensions.</span>
+
+<span class="sd">    If duplicated, this plugin will be used instead of ``ASE`` library&#39;s.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_plugins</span><span class="p">:</span> <span class="n">OrderedDict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({})</span>
+    <span class="n">_instances</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_piinit</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="AsecIO.init_plugins">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO.init_plugins">[docs]</a>
+    <span class="k">def</span> <span class="nf">init_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize registered _plugins.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_piinit</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_piinit</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="AsecIO.infos">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO.infos">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">infos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get IO plugin info. Must be implemented in the subclasses.</span>
+
+<span class="sd">        The ``typeexts`` can include multiple dicts.</span>
+<span class="sd">        The ``type`` is a name for the geometry format such as &#39;vasp&#39;, &#39;aims&#39;, or etc.</span>
+<span class="sd">        The ``extwithdot`` is the corresponding extenstion including &#39;.&#39;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ``dict`` containing</span>
+
+<span class="sd">            - &#39;help&#39;: &#39;Help message&#39;</span>
+<span class="sd">            - &#39;typeexts&#39;: { &#39;type1&#39;: &#39;ext1withdot&#39; , ... }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="AsecIO.read">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO.read">[docs]</a>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read function for specfic extensions and returns an ``ase.Atoms`` object.</span>
+
+<span class="sd">           If not implemented in a plugin class, ``ase.io.read`` is used.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file: Input file name.</span>
+<span class="sd">            type: Input file type.</span>
+<span class="sd">            kwargs: Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The opened atom image.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsecIO.write">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO.write">[docs]</a>
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">atom</span><span class="p">:</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write function of an ``atom`` image for the plugin.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            args: Processed arguments from ``parse_args``.</span>
+<span class="sd">            atom: An atom image.</span>
+<span class="sd">            type: Output file type.</span>
+<span class="sd">            file: Output file name.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot; - [AsecIO] write is not implemented...&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsecIO.vec2str">
+<a class="viewcode-back" href="../../generated/aseconv.pluginbase.AsecIO.html#aseconv.pluginbase.AsecIO.vec2str">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">vec2str</span><span class="p">(</span><span class="n">vec</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:&gt;20.16f}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a vector of arbitary size into a formmated string ``str``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vec: A vector of arbitary size.</span>
+<span class="sd">            fmt: A format string for a single ``float``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The formatted string joined by a single space &#39; &#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span><span class="p">])</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sinchul Yeom, Mina Yoon, and Jack C Lasseter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
